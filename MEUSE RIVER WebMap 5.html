@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset=utf-8 />
+<title>Heavy Metal Contamination - Meuse River - Stein, NL</title>
+
+<meta name="viewport" content='width=device-width, initial-scale=1, maximum-scale=1,user-scalable=no'/>
+
+
+	<!--Link to Leaflet CSS document
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  -->
+
+	<!--linking to Leaflet API, Geosearch, FontAwesome-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.1.0/dist/geosearch.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/leaflet-geosearch@3.1.0/dist/bundle.min.js"></script>
+
+	<!--linking to jQuery and jQuery UI libraries and jQuery UI CSS stylesheet -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <!--<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">-->
+
+<script type="text/css"></script>
+<!--<div id="map" class="map">  </div>-->
+
+<style>
+
+
+/* These rules are applied to the layer toggle in top right corner, a cleaner look than the default toggle */
+.leaflet-control-layers-toggle {
+  background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
+	background-color: #2da0e2;
+  background-size: 20px 20px;
+		}
+
+	.leaflet-touch .leaflet-control-layers-toggle {
+	background-image: url(https://i.stack.imgur.com/3keSg.png) !important;
+	background-color: #2da0e2;
+	}
+
+.leaflet-control-layers-expanded {
+  color: white;
+	background-color: #2da0e2;
+	}
+
+.leaflet-control-layers-expanded {
+  text-decoration: uncheck ALL;
+}
+
+	
+
+/* set style parameters to account for Information box(list) and map (fills entire screen), with separate properties, also allows LayerControl box to not inherit the same parameters as the info box -this was the section giving me a ton of issues, with the LayerControl box opening the same size as the info box... fixed now! */
+#map {
+    position: absolute;
+    top: 0%;
+    bottom: 0%;
+    width: 100%;
+    scroll-behavior: zoom;
+}
+
+#toggle-button {
+    position: absolute;
+    top: 2%;
+    left:  5%;
+    /*bottom: 0%;
+    width: 100%;
+    width: 20px;*/
+    /*visibility: hidden;*/
+    height: 15px;
+    border: 1px solid rgb(33,13, 40);
+    
+    border-radius: 1px;
+    z-index: 1800;
+    font-family: Tahoma;
+    font-size: 8pt;
+    background: #bebebe;
+    cursor: pointer;
+    scroll-behavior: auto;
+
+}
+#toggle-button-off {
+    position: absolute;
+    top: 2%;
+    left:  1300px;
+    /*bottom: 0%;
+    width: 100%;
+    width: 20px;*/
+    /*visibility: hidden;*/
+    height: 15px;
+    border: 1px solid rgb(33,13, 40);
+    
+    border-radius: 1px;
+    z-index: 18000;
+    font-family: Tahoma;
+    font-size: 8pt;
+    background: #bebebe;
+    cursor: pointer;
+    scroll-behavior: auto;
+
+}
+
+#opacity {
+    position: absolute;
+    top: 5%;
+    left:  5%;
+    z-index: 1800;
+    font-family: Tahoma;
+    font-size: 9pt;
+    
+}
+    
+    /*bottom: 0%;
+    width: 100%;
+    width: 20px;*/
+    /*visibility: hidden;
+    font-family: Tahoma;
+    font-size: 8pt;
+    height: 15px;
+    border: 1px solid rgb(33,13, 40);
+     border-radius: 1px;
+    border: 1px solid rgb(33,13, 40);
+    
+    border-radius: 1px;
+    
+    font-family: Tahoma;
+    font-size: 8pt;
+    background: #bebebe;
+    cursor: pointer;
+    scroll-behavior: auto;*/
+
+#opacity2 {
+    position: absolute;
+    top: 8%;
+    left:  5%;
+    z-index: 1800;
+    font-family: Tahoma;
+    font-size: 9pt;
+}
+
+#opacity3 {
+    position: absolute;
+    top: 11%;
+    left:  5%;
+    z-index: 1800;
+    font-family: Tahoma;
+    font-size: 9pt;
+}
+
+#opacity4 {
+    position: absolute;
+    top: 14%;
+    left:  5%;
+    z-index: 1800;
+    font-family: Tahoma;
+    font-size: 9pt;
+}
+
+.target { 
+     
+    clear:both;
+    position: fixed;
+    left: 5%;
+    top: 145px;
+    width: 225px;
+    /*visibility: hidden;*/
+    height: 555px;
+    opacity: 0.9;
+    margin: 5px auto;
+    padding: 0 15px;
+    background: #d3d3d3;
+    border: 2px solid rgb(33,13, 40);
+    border-radius: 3px;
+    z-index: 180;
+    font-family: Tahoma;
+    font-size: 12pt;
+    display: show;
+    text-decoration-color: #000000;
+    scroll-behavior: auto;
+
+}
+
+#buttonOff {
+    position: fixed;
+    top: 2%;
+    left:  75%;
+    /*bottom: 0%;
+    width: 100%;
+    width: 20px;*/
+    /*visibility: hidden;*/
+    height: 30px;
+    border: 1px solid rgb(33,13, 40);
+    
+    border-radius: 1px;
+    z-index: 1800;
+    font-family: Tahoma;
+    font-size: 8pt;
+    background: #bebebe;
+    cursor: pointer;
+    scroll-behavior: auto;
+}
+
+#buttonOn {
+    position: fixed;
+    top: 2%;
+    left:  71%;
+    /*bottom: 0%;
+    width: 100%;
+    width: 20px;*/
+    /*visibility: hidden;*/
+    height: 30px;
+    border: 1px solid rgb(33,13, 40);
+    
+    border-radius: 1px;
+    z-index: 1800;
+    font-family: Tahoma;
+    font-size: 8pt;
+    background: #bebebe;
+    cursor: pointer;
+    scroll-behavior: auto;
+}
+/*#header {
+    float: right;
+    position: absolute;
+    display: show;
+    height: 450px;
+    width: 200px;
+}*/
+.hidden {
+    display: none;
+}
+
+.leaflet-control-basemapsSwitcher{
+    height: auto;
+    width: auto;
+    display:flex;
+}
+
+.leaflet-control-basemapsSwitcher:hover{
+    cursor: pointer;
+}
+
+.basemapImg{
+    box-shadow: 2px 2px 5px rgb(0 0 0 / 65%);
+    background-color: #fff;
+    margin:5px;
+    padding:5px;
+    border-radius: 3px 3px;
+}
+
+.basemapImg div{
+    background-size: 55px 55px;
+    width: 55px;
+    height: 55px;
+    border-radius: 3px 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.basemapImg div .name{
+    width:100%;
+    height:auto;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 0;
+    color:black;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    padding:1px;
+}
+
+.basemapImg div .check{
+    width:auto;
+    height:auto;
+    border-radius: 0;
+    display: flex;
+    align-items: flex-end;
+    font-weight: 500;
+    padding:1px;
+    content:''
+}
+
+.activeMap::before{
+    color:white;
+    content: '✔';
+    width: 18px;
+    height: 18px;
+    background-color: #387B23;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+p {
+    font-size: .9em;
+    line-height: 1.5em;
+  }
+
+/*@media screen and (max-width:768px) {
+
+     These rules are applied for devices where the browser window is smaller than 768px - example: mobile phones 
+    body {
+      overflow: hidden
+    }
+
+    section {
+      width: 85%;
+      bottom:15px;
+      max-height:300px;
+      overflow: auto;
+    }
+*/
+/*#similar { 
+float:right; 
+width:200px; 
+background:#000; 
+clear:both;
+}*/
+
+@media screen and (max-width: 768px) {
+  .target{
+    visibility: hidden;
+    clear: both;
+    float: left;
+    margin: 10px auto 5px 20px;
+    width: 28%;
+    display: none;
+}
+    #toggle-button {
+    visibility: hidden;
+    clear: both;
+    float: left;
+    margin: 10px auto 5px 20px;
+    width: 28%;
+    display: none;
+  }
+}
+body {
+    margin: 0;
+    padding: 0;
+  }
+	
+</style>
+</head>
+
+<!--Declare map div container to place the map inside on the page, also declare list div container, so that it doesn't propagate its paramaters to the LayerControl popup box <p style="color:black;font-size:11px; vertical-align: top;"><B> </B>  <span class="target"></span>
+ -->
+<body>
+
+<div id="map"></div>
+
+<div id="opacity"> <p><b>Kriging (Speherical) Opacity: </b><span id='image-opacity'>0.5</span>    <input type='range' id='sldOpacity' min='0.0' max='1.0' step='0.1' value='0.5'></p>
+</div>
+<div id="opacity2"> <p><b>Kriging (Gaussian) Opacity: </b><span id='image-opacity2'>0.5</span>    <input type='range' id='sldOpacity2' min='0.0' max='1.0' step='0.1' value='0.5'></p>
+</div>
+<div id="opacity3"> <p><b>Splining (Tension) Opacity: </b><span id='image-opacity3'>0.5</span>    <input type='range' id='sldOpacity3' min='0.0' max='1.0' step='0.1' value='0.5'></p>
+</div>
+<div id="opacity4"> <p><b>Splining (Regular) Opacity: </b><span id='image-opacity4'>0.5</span>    <input type='range' id='sldOpacity4' min='0.0' max='1.0' step='0.1' value='0.5'></p>
+</div>
+
+<div id="toggle-button"> &nbspShow/Hide Map Details&nbsp </button>
+
+    <button id ="buttonOff">Remove ALL <br>Layers</button>
+<button id ="buttonOn">Add ALL <br>Layers</button>
+
+  <!--<div id="toggle-button-off"> &nbspUncheck All&nbsp </button>
+
+
+<form action="toggle-button-off">
+    <p><label><input type="checkbox" id="checkAll"/> Check all</label></p>
+    
+    <fieldset>
+        <legend>Loads of checkboxes</legend>
+        <p><label><input type="checkbox" /> <var>oneLayer </var> </label></p>
+        <p><label><input type="checkbox" /> Option 2</label></p>
+        <p><label><input type="checkbox" /> Option 3</label></p>
+        <p><label><input type="checkbox" /> Option 4</label></p>
+    </fieldset>  https://cdn-icons-png.flaticon.com/512/1738/1738208.png  https://cdn-icons-png.flaticon.com/512/2701/2701411.png
+</form>-->
+
+
+<head>
+  
+  <title></title>
+</head>
+<body>
+
+</body>
+</html>
+<div class="target">
+
+<p><b>&nbspHeavy Metal Contamination &nbspMeuse River - City of Stein   Limburg Province, Netherlands</b></p>
+
+<p><a href="https://en.wikipedia.org/wiki/Stein,_Limburg" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1738/1738208.png" alt="Stein, Limburg, Netherlands" width="190" height="150"></a></p>
+
+<p><u><b>Resources:</u></b></p>
+
+<p><a href="https://doi.org/10.1017/S0016774600021910" target="_blank">Heavy-metal pollution of the Meuse floodplain</a></p>
+<p><a href="https://www.epa.gov/remedytech/behavior-metals-soils" target="_blank">Behaviour of Metals in Soils USEPA</a></p>
+<p><a href="https://doi.org/10.1016/j.pce.2004.10.001" target="_blank">Extreme flooding of Meuse River over past century</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Meuse" target="_blank">Meuse River General Information</a></p>
+<p><a href="https://data.4tu.nl/articles/dataset/Maximum_flood_extents_Limburg_floods_July_2021/16817389" target="_blank">2021 Limburg NL flood data</a></p>
+
+
+</div>
+
+<!--  
+<div id="map"></div>        
+<div id="wrapper">
+  <ul id="list">
+  	information here displays in the box to the right side of the map, add TITLE <h2> text and links as desired
+  	<section>
+	<h2>California Wildlife</h2>
+    <h2>Ranges & Protected Areas </h2>
+    <h2>in California</h2>-->
+	
+	<!--<p> </p><p><u>Cute and Shy Bastards!</u></p>
+    <p>~Support your local marina~</p>
+	<p>*wineries*&nbsp*camping*&nbsp*golfing*</p>
+		
+    <p><a href="https://www.marinemammalcenter.org/animal-care/learn-about-marine-mammals/pinnipeds/pacific-harbor-seal/" target="_blank">Marine Mammal Centre</a></p>
+    <p><a href="https://seaworld.org/animals/all-about/otters/habitat/" target="_blank">All About Otters</a></p>-->
+		
+	<!--
+    <p><a href="https://www.tripadvisor.ca/" target="_blank">TripAdvisor Reviews</a></p>
+	<p><a href="https://www.visitniagaracanada.com/" target="_blank">Tourism Niagara Canada</a></p>
+	<p><a href="https://niagarafamilies.com/historic-sites-and-museums/" target="_blank">Historic Sites & Museums</a></p>
+	<p>by: Sean Roelofsen seanroelofsen@yahoo.ca</p>
+    <p>Web Mapping With Leaflet API</p>
+</section>
+  
+  </list>
+</div>-->
+  <!--<div id ="similar">
+</div>
+</div>-->
+
+	<!--javascript functions start here, calling and setting map layer, map center co-ordinates and zoom level-->
+    <!-- sample lat/longs for Toronto = 44, -79, SFO = 38, -121, VCR = 49, -123, Houston = 30, -95 , Calgary = 51, -114, Miami = 26, -80-->
+    <!-- lower zoom is farther out 4 = all North America, zoom 6 = full state or province, zoom 11 = Large City-->
+
+	<script>
+		var lat = 50.974;
+		var lng = 5.75;
+		var zoom = 13.4;
+
+		//var map = L.map('map', {
+			//takes off native default Leaflet API zoom control to allow for modified zoom control/home button below
+		//zoomControl: false
+		//	});
+		  
+		  //CartoDB 'Voyager with Labels' map tiles, grabs zoom and lat-long from variables listed above
+//		map.setView([lat, lng], zoom);
+	//		L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}.png', {
+	//				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+	//	subdomains: 'abcd',
+ //   maxZoom: 19
+	//	}).addTo(map);
+
+   // Sets centre of map at the LatLong specified with Zoom level
+      var map = L.map('map', {
+          zoomControl: false
+          });
+
+        map.setView([lat, lng], zoom);
+       
+      // This example uses custom tiles taken from https://leaflet-extras.github.io/leaflet-providers/preview/
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+               maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+     }).addTo(map);
+       
+
+ // This example uses custom tiles taken from https://leaflet-extras.github.io/leaflet-providers/preview/
+  //map.setView([lat, lng], zoom);
+    //  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {        
+     //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    //    maxZoom: 18
+   //  }).addTo(mymap);
+		
+//creates search box and places at the top of the map for user searches provided by OpenStreetMap, zooms in to search entry upon selection
+ const provider = new window.GeoSearch.OpenStreetMapProvider();
+    const search = new GeoSearch.GeoSearchControl({
+      provider: provider,
+      //style: 'bar',
+      //updateMap: true,
+      //keepResult: true,
+      showMarker: true,
+      autoClose: true,
+      showPopup: true,
+       popupFormat: ({ query, result }) => `
+       ${result.label}<br />
+      LatLong: ${result.y}, ${result.x}
+  `,
+
+      marker: {
+        icon: new L.Icon.Default(),
+        draggable: false,
+  },
+
+    //popupFormat: ({ result }) => [result.x.toString(), // optional: function    - default returns result label,
+    //resultFormat: ({ result }) => result.label, // optional: function    - default returns result label
+    keepResult: true, // optional: true|false  - default false
+    style: 'bar'
+   }).addTo(map);
+
+
+L.Control.basemapsSwitcher = L.Control.extend({
+    options: {
+        position: 'topright',
+    },
+
+    initialize: function(layers, options){
+        L.Util.setOptions(this, options);
+        this.layers = layers
+    },
+
+    onAdd: function (map){
+        const container = this.container = L.DomUtil.create('div', 'leaflet-control-basemapsSwitcher');
+
+        this._createItems();
+        this._collapse();
+
+        container.addEventListener('mouseover', () => {
+            this._expand();
+        })
+
+        container.addEventListener('mouseout', () => {
+            this._collapse();
+        })
+
+        return container;
+    },
+
+    _createItems() {
+        this.layers.forEach( (obj, index) => {
+
+            obj.id = index
+
+            const imgContainer = L.DomUtil.create('div', 'basemapImg');
+            const img = L.DomUtil.create('div');
+            const name = L.DomUtil.create('div', 'name');
+            const check = L.DomUtil.create('div', 'check');
+            name.innerHTML = obj.name
+
+            if(obj.layer?._map){
+                this.activeMap = obj
+                check.classList.add('activeMap');
+            }
+            
+            img.style.backgroundImage = `url(${obj.icon})`;
+            imgContainer.append(img)
+            img.append(check)
+            img.append(name)
+            
+            imgContainer.addEventListener('click', () =>{
+
+                this._removeLayers(obj.layer);
+                
+                if(!obj.layer?._map){
+                    obj.layer.addTo(this._map);
+                    this.activeMap = obj;
+                    this._collapse();
+
+                    check.classList.add('activeMap');
+                }
+
+            })
+
+            this.container.append(imgContainer)
+
+        })
+    },
+
+    _removeLayers(layer){
+
+        this.layers.forEach( (obj) =>{
+            if(obj.layer._leaflet_id !== layer._leaflet_id && obj.layer?._map) {
+                this._map.removeLayer(obj.layer);
+            }
+        })
+    },
+
+    _collapse(){
+
+        this.container.childNodes.forEach( (child, index) => {
+
+            if(index !== this.activeMap.id){
+                child.classList.add('hidden')
+                let check = child.querySelector('.check')
+                check.classList.remove('activeMap')
+            }
+        })
+
+    },
+
+    _expand(){
+
+        this.container.childNodes.forEach( (child) => {
+            child.classList.remove('hidden')
+        })
+    }
+
+})
+
+L.basemapsSwitcher = function(layers, options){
+    return new L.Control.basemapsSwitcher(layers, options);  
+}
+
+//creates home zoom control box, with large home icon and larger zoom+/- icons from fontawesome, home button returns to full out zoom and mapcenter
+    L.Control.zoomHome = L.Control.extend({
+    options: {
+        position: 'topleft',
+        zoomInText: '<i class="fa fa-plus fa-lg"></i>',
+        zoomInTitle: 'Zoom in',
+        zoomOutText: '<i class="fa fa-minus fa-lg"></i>',
+        zoomOutTitle: 'Zoom out',
+        zoomHomeText: '<i class="fa fa-home fa-lg" style="line-height:2;"></i>',
+        zoomHomeTitle: 'Zoom home'
+    },
+
+    onAdd: function (map) {
+        var controlName = 'gin-control-zoom',
+            container = L.DomUtil.create('div', controlName + ' leaflet-bar'),
+            options = this.options;
+
+        this._zoomInButton = this._createButton(options.zoomInText, options.zoomInTitle,
+        controlName + '-in', container, this._zoomIn);
+        this._zoomHomeButton = this._createButton(options.zoomHomeText, options.zoomHomeTitle,
+        controlName + '-home', container, this._zoomHome);
+        this._zoomOutButton = this._createButton(options.zoomOutText, options.zoomOutTitle,
+        controlName + '-out', container, this._zoomOut);
+
+        this._updateDisabled();
+        map.on('zoomend zoomlevelschange', this._updateDisabled, this);
+
+        return container;
+    },
+
+    onRemove: function (map) {
+        map.off('zoomend zoomlevelschange', this._updateDisabled, this);
+    },
+
+    _zoomIn: function (e) {
+        this._map.zoomIn(e.shiftKey ? 3 : 1);
+    },
+
+    _zoomOut: function (e) {
+        this._map.zoomOut(e.shiftKey ? 3 : 1);
+    },
+
+    _zoomHome: function (e) {
+        map.setView([lat, lng], zoom);
+    },
+
+    _createButton: function (html, title, className, container, fn) {
+        var link = L.DomUtil.create('a', className, container);
+        link.innerHTML = html;
+        link.href = '#';
+        link.title = title;
+
+        L.DomEvent.on(link, 'mousedown dblclick', L.DomEvent.stopPropagation)
+            .on(link, 'click', L.DomEvent.stop)
+            .on(link, 'click', fn, this)
+            .on(link, 'click', this._refocusOnMap, this);
+
+        return link;
+    },
+
+    _updateDisabled: function () {
+        var map = this._map,
+            className = 'leaflet-disabled';
+
+        L.DomUtil.removeClass(this._zoomInButton, className);
+        L.DomUtil.removeClass(this._zoomOutButton, className);
+
+        if (map._zoom === map.getMinZoom()) {
+            L.DomUtil.addClass(this._zoomOutButton, className);
+        }
+        if (map._zoom === map.getMaxZoom()) {
+            L.DomUtil.addClass(this._zoomInButton, className);
+        }
+    }
+});
+
+// add the new custom zoom control to the map with home button and larger fontawesome icons for clarity (defaults too small)
+var zoomHome = new L.Control.zoomHome();
+zoomHome.addTo(map);
+
+document.getElementById('toggle-button').addEventListener('click', function () {
+    toggle(document.querySelectorAll('.target'));
+});
+
+function toggle (elements, specifiedDisplay) {
+  var element, index;
+
+  elements = elements.length ? elements : [elements];
+  for (index = 0; index < elements.length; index++) {
+    element = elements[index];
+
+    if (isElementHidden(element)) {
+      element.style.display = '';
+
+      // If the element is still hidden after removing the inline display
+      if (isElementHidden(element)) {
+        element.style.display = specifiedDisplay || 'block';
+      }
+    } else {
+      element.style.display = 'none';
+    }
+  }
+  function isElementHidden (element) {
+    return window.getComputedStyle(element, null).getPropertyValue('display') === 'none';
+  }
+}
+
+
+//*****************************
+
+document.getElementById('buttonOff').addEventListener('click', function (event) {
+    event.preventDefault();
+  
+  for (var i in overlays) {
+    console.log(i);
+    map.removeLayer(overlays[i]);
+  }
+});
+
+document.getElementById('buttonOn').addEventListener('click', function (event) {
+    event.preventDefault();
+  
+  for (var i in overlays) {
+    console.log(i);
+    map.addLayer(overlays[i]);
+  }
+});
+
+new L.basemapsSwitcher([
+
+    {
+    layer: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      //attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(map), //DEFAULT MAP
+    icon: 'https://raw.githubusercontent.com/sean-roelofsen/HP-Abatement/main/Basemap1Carto.png',
+    name: 'Mobile'
+  },
+  {
+    layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      //attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }), 
+    icon: 'https://raw.githubusercontent.com/sean-roelofsen/HP-Abatement/main/ESRIWSMThumb.png',
+    name: 'Street'
+  },
+  
+  {
+    layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+     // attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    }),
+    icon: 'https://raw.githubusercontent.com/sean-roelofsen/HP-Abatement/main/AerialImageryESRIThumb.png',
+    name: 'Imagery'
+  },
+], { position: 'bottomright' }).addTo(map);
+
+// https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+// https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png
+//************** CUSTOM ICON CODE AREA ********************
+//create all map icons here with free url links from www.flaticon.com, no token required for these free icons, should remain active for a long period of time
+//simply copy/paste url into these variables
+
+var icon1url = "https://cdn-icons-png.flaticon.com/512/4668/4668400.png";
+
+// atoms  https://cdn-icons-png.flaticon.com/512/3081/3081530.png
+// test tubes https://cdn-icons-png.flaticon.com/512/6902/6902854.png
+//test tube https://cdn-icons-png.flaticon.com/512/500/500517.png
+// GOOD USE pin https://cdn-icons-png.flaticon.com/512/4668/4668400.png
+//good atom https://cdn-icons-png.flaticon.com/512/3081/3081478.png
+// another pin https://cdn-icons-png.flaticon.com/512/149/149059.png
+// pin with stand https://cdn-icons-png.flaticon.com/512/727/727598.png
+// circle dot https://cdn-icons-png.flaticon.com/512/190/190256.png
+//circle https://cdn-icons-png.flaticon.com/512/3388/3388752.png
+
+var icon2url = "https://cdn-icons-png.flaticon.com/512/1998/1998737.png";
+
+var icon3url = "https://cdn-icons-png.flaticon.com/512/2934/29905.png";
+
+//var icon4url = "https://cdn-icons-png.flaticon.com/512/2934/05.png";
+
+//END OF ICON VARIABLES
+
+//icon programming refers to icon url linkls above, no need to change this section excpet for icon size, if required
+
+var icon1 = L.icon({
+  iconUrl: icon1url,
+  //picurl: pic1url,
+  iconSize: [20, 25]
+});
+var icon2 = L.icon({
+  iconUrl: icon2url,
+ iconSize: [20, 20]
+});
+
+
+var icon3 = L.icon({
+        iconUrl: icon3url,
+        iconSize: [38, 10]
+    });
+
+//var icon4 = L.icon({
+     //   iconUrl: icon4url,
+     //   iconSize: [38, 10]
+   // });
+
+//create markers at lat/long with list of icons above, no need to change this code
+function getOneMarker(feature, latlng) {
+  return L.marker(latlng, {
+    icon: icon1
+  });
+}
+
+
+function getTwoMarker(feature, latlng) {
+  return L.marker(latlng, {
+    icon: icon2
+  });
+}
+
+function getThreeMarker(feature, latlng) {
+  return L.marker(latlng, {
+    icon: icon3
+  });
+}
+
+//function getFourMarker(feature, latlng) {
+  //return L.marker(latlng, {
+   // icon: icon4
+ // });
+//}
+
+
+//*************** POP-UPS TRENARY CODE AREA BELOW************************
+
+//review your GeoJson data to figure out the column names, addd to list below if required.  
+//attach popups to the markers reading in geojson properties, excluding those with no information or 'undefined' via trenary operation. Pop-ups will only have information that exists and no 'undefined' text, looks cleaner and less cluttered. The source geojsons from Niagara OpenData are not all identical feature properties, so I examined them to determine which properties to parse. Trenary operations account for all of the feature properties that I want displayed in pop-up, and omit blanks or null.
+	
+//var link1 = "<img src='https://upload.wikimedia.org/wikipedia/commons/e/ea/Stellers_jay_-_natures_pics.jpg'></img>";
+
+//var link1 = "<img src='https://cdn.pixabay.com/photo/2018/02/08/05/03/bird-3138689_960_720.jpg' height=50 width=50></a>";
+
+// var link 2 = <a href="real-image.png"  target="_blank">
+//<img src="real-image.png" height=50 width=50></a>
+//https://cdn.pixabay.com/photo/2018/02/08/05/03/bird-3138689_960_720.jpg
+//https://upload.wikimedia.org/wikipedia/commons/e/ea/Stellers_jay_-_natures_pics.jpg
+//https://images.freeimages.com/images/large-previews/f8e/stellar-s-jay-1338112.jpg
+
+//var link1 = ["<a href='https://cdn.pixabay.com/photo/2018/02/08/05/03/bird-3138689_960_720.jpg' target='_blank'><img src='https://cdn.pixabay.com/photo/2018/02/08/05/03/bird-3138689_960_720.jpg' height=50 width=50></a>"];
+
+function getPopup(feature, layer) {
+
+var popupText = ''
+;
+
+popupText += (feature.properties.Name) ? '' + feature.properties.Name : '';
+
+
+
+//popupText += (feature.geometry.polygon) ? '<br>Meuse Study Boundary: ' + feature.geometry.polygon : '';
+
+popupText += (feature.properties.lead) ? '<u><b>Sample Results</b></u><br>(mg/kg-soil or ppm)<br><br><b><u>Lead (Pb):</u></b>  ' + feature.properties.lead : '';
+
+popupText += (feature.properties.cadmium) ? '<br>Cadmium (Cd):  ' + feature.properties.cadmium : '';
+
+popupText += (feature.properties.zinc) ? '<br>Zinc (Zn):  ' + feature.properties.zinc : '';
+
+popupText += (feature.properties.copper) ? '<br>Copper (Cu):  ' + feature.properties.copper : '';
+
+//popupText += (feature.properties.Category) ? '2021 Flood Extent ' : '';
+
+popupText += (feature.properties.OBJECTID) ? 'Meuse River Study Area '  : '';
+
+//popupText += (feature.properties.Category) ? 'Meuse River Study Area ' + feature.properties.Category : '';
+
+popupText += (feature.properties.gridcode) ? '<br>Lead Conc ppm:  ' + feature.properties.gridcode : '';
+
+
+
+
+
+//feeding trenary results through a replace function in order to format URLs into proper clickable hyperlinks in the popups
+//if they have URLs in the geojson properties, will pull in as a hyperlink but does not ensure the link is working on their other end
+// no need to change this code section
+
+var replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+var replacedText = (popupText).replace(replacePattern1, '<br><a href="$1" target="_blank">website link</a>');
+
+
+layer.bindPopup(replacedText);
+}
+
+//layer.bindPopup('<img src=' +$icon$1a+ '/>' + replacedText);
+
+//}
+
+//}
+
+//****************END POP-UPS CODE SECTION*********************
+
+
+
+//}
+//this section creates empty GeoJSON layers to be populated later
+//no need to change this code unless you want the layer to be NOT VISIBLE by DEFAULT, add // to any layer at "})//.addTo(map);" (layer5 is turned off here)
+// this will make the layer visible by clicking on the legend checkbox
+
+var oneLayer = L.geoJson(false, {
+    pointToLayer: getOneMarker,
+    onEachFeature: getPopup
+}).addTo(map);
+
+var twoLayer = L.geoJson(false, {
+    pointToLayer: getTwoMarker,
+   onEachFeature: getPopup,
+   //color: "#ed4d4d"
+   color: "#ff4f00",
+}).addTo(map);
+
+var threeLayer = L.geoJson(false, {
+    pointToLayer: getThreeMarker,
+    //onEachFeature: getPopup,
+    color: "#0000FF"
+    //fill: "#000000"
+}).addTo(map);
+
+//var fourLayer = L.geoJson(false, {
+   // pointToLayer: getFourMarker,
+    //onEachFeature: getPopup,
+   // color: "#000000"
+    //fill: "#000000"
+//}).addTo(map);
+
+
+
+
+//*************
+
+var imageUrl = 'https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/KS1.png',
+    imageBounds = [[50.9537, 5.6988], [50.994, 5.7792]];
+
+
+var eightLayer = L.imageOverlay(imageUrl, imageBounds, {opacity:0.5});
+
+var image2Url = 'https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/KG1.png',
+    imageBounds = imageBounds = [[50.9537, 5.6988], [50.994, 5.7792]];
+
+var nineLayer = L.imageOverlay(image2Url, imageBounds, {opacity:0.5});
+
+var image3Url = 'https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/SplineTension2.png',
+    imageBounds = [[50.9537, 5.6988], [50.994, 5.7792]];
+
+
+var sixLayer = L.imageOverlay(image3Url, imageBounds, {opacity:0.5});
+
+var image4Url = 'https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/SplineReg1.png',
+    imageBounds = [[50.9537, 5.6988], [50.994, 5.7792]];
+
+var sevenLayer = L.imageOverlay(image4Url, imageBounds, {opacity:0.5});
+
+//*** GEOJSON LAYERS CODE BELOW**********
+
+//change your geojson urls here!  Add more, remove, make null with // before code line
+//simply copy/paste the external GeoJson source url into the proper location
+
+var geoJson1 = "https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/Contaminants.geojson";
+
+var geoJson2 = "https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/Meuse_Boundary2.geojson";
+
+var geoJson3 = "https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/Maas_floodextent_v2.geojson";
+
+//var geoJson3 = "https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/Maas_floodextent_v3.geojson";
+
+//var geoJson4 = "https://raw.githubusercontent.com/sean-roelofsen/MeuseContaminants/main/KrigingGaussian.geojson";
+
+
+
+//NO CHANGES NEEDED - the code below populates GeoJSON layers with data from files listed above, no need to change this code 
+$.getJSON(geoJson1, function(data) {
+    oneLayer.addData(data);
+});
+
+$.getJSON(geoJson2, function(data) {
+    twoLayer.addData(data);
+});
+
+$.getJSON(geoJson3, function(data) {
+    threeLayer.addData(data);
+});
+
+var zeroLayer = L.geoJson(false, {
+    });
+//$.getJSON(geoJson4, function(data) {
+    //fourLayer.addData(data);
+//});
+//******************* END GEOJSON LAYER CODE************************
+
+//slider opacity JQuery
+$("#sldOpacity").on('change', function(){
+    $("#image-opacity").html(this.value);
+    eightLayer.setOpacity(this.value);
+});
+
+$("#sldOpacity2").on('change', function(){
+    $("#image-opacity2").html(this.value);
+    nineLayer.setOpacity(this.value);
+});
+
+$("#sldOpacity3").on('change', function(){
+    $("#image-opacity3").html(this.value);
+    sixLayer.setOpacity(this.value);
+});
+
+$("#sldOpacity4").on('change', function(){
+    $("#image-opacity4").html(this.value);
+    sevenLayer.setOpacity(this.value);
+});
+//slider opacity end
+
+
+
+
+//LEGEND TEXT CONTROL
+//adds layer control checkboxes for each layer listed, in top right corner of map, with style outlined above
+//change the layer Names in quotes to reflect your desired layers in the legend
+//layer turned OFF above will still be in legend as unchecked boxes, can turn on layer manually clicking.
+
+    //const title1 = "Habitat Ranges",
+    //const title2 = "Widlife Tracking",
+   // const title3 = "Pollution Sources",
+
+    //title1 = "Habitat Ranges";
+    //title2 = "Widlife Tracking";
+    //title3 = "Pollution Sources";
+
+var overlays = {
+    'Sample Locations (<b><u>Heavy Metals</u></b>)': oneLayer,
+    'Meuse Study Area Boundary': twoLayer,
+    '2021 Flood - Maximum Extent ': threeLayer,
+    '------Interpolation Methods Results-----': zeroLayer,
+    'Kriging (Spherical) Layer': eightLayer,
+    'Kriging (Gaussian) Layer': nineLayer,
+    'Splining (Tenion) Layer': sixLayer,
+    'Splining (Regularized) Layer': sevenLayer,
+
+   };
+
+//var layerbox = L.control.layers(null, overlays, {position: 'topright'}).addTo(map);
+
+//var layerbox =L.removeControl.layers(map, zeroLayer);
+
+L.control.layers(null, overlays, {position: 'topright'}).addTo(map);
+
+
+	</script>
+</body>
+</html>
